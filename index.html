@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 2 Chefs — Snack | Tacos • Pizzas • Konafa</title>
+  <meta name="description" content="Snack moderne: Tacos, Pizzas, Konafa pistache & desserts. Commande au 0781302400. Instagram + Google Maps." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --text:#F5F7FF;
+      --muted:#B8C0D9;
+      --line: rgba(255,255,255,.12);
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.04);
+      --shadow: 0 20px 70px rgba(0,0,0,.45);
+      --r: 18px;
+      --r2: 28px;
+      --max: 1200px;
+
+      --a:#7c3aed;  /* violet */
+      --b:#22c55e;  /* green  */
+      --c:#f97316;  /* orange */
+      --d:#06b6d4;  /* cyan   */
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 700px at 10% 0%, rgba(124,58,237,.18), transparent 55%),
+        radial-gradient(900px 700px at 90% 10%, rgba(6,182,212,.14), transparent 60%),
+        radial-gradient(1000px 900px at 50% 120%, rgba(249,115,22,.12), transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+    .container{width:min(var(--max), calc(100% - 42px)); margin:0 auto;}
+
+    /* blobs */
+    .blob{
+      position:absolute; width:420px;height:420px;border-radius:999px;
+      filter: blur(55px); opacity:.55; pointer-events:none; z-index:-1;
+      animation: floaty 12s ease-in-out infinite;
+    }
+    .blob.one{left:-140px; top:120px; background: radial-gradient(circle, rgba(124,58,237,.9), transparent 65%);}
+    .blob.two{right:-160px; top:90px; background: radial-gradient(circle, rgba(6,182,212,.9), transparent 65%); animation-duration:14s;}
+    .blob.three{left:18%; bottom:-220px; width:520px;height:520px; background: radial-gradient(circle, rgba(249,115,22,.9), transparent 65%); animation-duration:16s;}
+    @keyframes floaty{ 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(18px,-20px) scale(1.02)} }
+
+    /* header */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(7,10,18,.65);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:var(--text);
+      font-weight:800; letter-spacing:.2px; white-space:nowrap;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:16px;
+      background: linear-gradient(135deg, var(--a), var(--d));
+      box-shadow: 0 18px 60px rgba(124,58,237,.20);
+      position:relative; overflow:hidden;
+    }
+    .logo:after{
+      content:""; position:absolute; inset:-50%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      transform: rotate(25deg);
+      animation: shine 3s ease-in-out infinite;
+    }
+    @keyframes shine{
+      0%{transform:translateX(-70%) rotate(25deg); opacity:0}
+      40%{opacity:.6}
+      100%{transform:translateX(90%) rotate(25deg); opacity:0}
+    }
+
+    nav ul{list-style:none; display:flex; gap:10px; margin:0; padding:0; align-items:center;}
+    nav a{
+      color:var(--muted); text-decoration:none;
+      padding:10px 12px; border-radius:14px;
+      transition:.2s ease; font-weight:600;
+    }
+    nav a:hover{color:var(--text); background: rgba(255,255,255,.06);}
+
+    .cta{display:flex; gap:10px; align-items:center;}
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius: 14px;
+      font-weight:700;
+      transition:.2s ease;
+      display:inline-flex; align-items:center; gap:10px;
+      cursor:pointer;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09);}
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--c), var(--b));
+      box-shadow: 0 18px 60px rgba(34,197,94,.18);
+    }
+    .btn.primary:hover{transform: translateY(-2px); filter:saturate(1.05);}
+
+    .hamburger{
+      display:none;
+      width:44px;height:44px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+    }
+    .hamburger span{
+      width:18px;height:2px;background:var(--text);
+      border-radius:2px;display:block;margin:0 auto;position:relative;
+    }
+    .hamburger span::before,.hamburger span::after{
+      content:""; position:absolute; left:0; width:18px;height:2px;background:var(--text);
+      border-radius:2px;
+    }
+    .hamburger span::before{ top:-6px; }
+    .hamburger span::after{ top:6px; }
+
+    .mobileMenu{display:none; padding:0 0 14px;}
+    .mobileMenu.open{display:block;}
+    .mobileMenu a{
+      display:block; margin-top:10px;
+      text-decoration:none; color:var(--muted);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      padding:12px 12px; border-radius:14px;
+    }
+    .mobileMenu a:hover{color:var(--text); background: rgba(255,255,255,.08);}
+
+    /* hero */
+    .hero{padding:56px 0 28px;}
+    .heroWrap{display:grid; grid-template-columns: 1.15fr .85fr; gap:22px; align-items:center;}
+    .tag{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--muted);
+      width:fit-content;
+    }
+    .pulse{
+      width:10px;height:10px;border-radius:999px;background:var(--b);
+      box-shadow: 0 0 0 4px rgba(34,197,94,.15);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:.75} }
+
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height:1.05;
+      letter-spacing:-.8px;
+    }
+    .grad{
+      background: linear-gradient(90deg, var(--a), var(--d), var(--c), var(--b));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .lead{color:var(--muted); line-height:1.65; margin:0 0 16px; max-width:62ch;}
+    .heroActions{display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+
+    .heroCard{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: var(--r2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      min-height: 420px;
+    }
+    .heroCardTop{
+      padding:18px; display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+    }
+    .heroCardTop b{display:block}
+    .heroCardTop small{color:var(--muted); display:block; margin-top:6px; line-height:1.45}
+    .heroArt{
+      position:absolute; inset:auto -20px -30px -20px;
+      height: 320px;
+      background:
+        radial-gradient(240px 240px at 20% 35%, rgba(124,58,237,.45), transparent 60%),
+        radial-gradient(260px 260px at 70% 35%, rgba(249,115,22,.40), transparent 62%),
+        radial-gradient(240px 240px at 50% 70%, rgba(6,182,212,.25), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.45));
+      filter:saturate(1.1);
+    }
+    .heroGrid{
+      position:absolute; left:18px; right:18px; bottom:18px;
+      display:grid; grid-template-columns: 1fr 1fr; gap:12px;
+    }
+    .mini{
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding:12px;
+      display:flex; gap:10px; align-items:center;
+      backdrop-filter: blur(10px);
+    }
+    .icon{
+      width:40px;height:40px;border-radius:16px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:18px;
+    }
+    .mini b{font-size:14px}
+    .mini span{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+
+    section{padding:46px 0}
+    .head{display:flex; justify-content:space-between; gap:18px; align-items:end; margin-bottom:16px}
+    .head h2{margin:0; font-size:28px; letter-spacing:-.5px}
+    .head p{margin:0; color:var(--muted); max-width:64ch}
+
+    /* filters + cards */
+    .filters{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .filterBtn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      padding:10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight:700;
+      transition:.2s;
+    }
+    .filterBtn:hover{color:var(--text); background: rgba(255,255,255,.09);}
+    .filterBtn.active{
+      color:var(--text);
+      border:none;
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(6,182,212,.95));
+      box-shadow: 0 16px 50px rgba(6,182,212,.16);
+    }
+
+    .cards{display:grid; grid-template-columns: repeat(12,1fr); gap:16px;}
+    .card{
+      grid-column: span 4;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.11);
+      border-radius: var(--r);
+      overflow:hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      transform: translateZ(0);
+      transition:.25s ease;
+    }
+    .card:hover{transform: translateY(-3px);}
+    .img{
+      height: 160px;
+      background:
+        radial-gradient(240px 140px at 20% 30%, rgba(124,58,237,.40), transparent 60%),
+        radial-gradient(240px 140px at 80% 30%, rgba(6,182,212,.32), transparent 60%),
+        radial-gradient(240px 140px at 50% 90%, rgba(249,115,22,.18), transparent 60%),
+        rgba(255,255,255,.04);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      position:relative;
+    }
+    .chip{
+      position:absolute; left:14px; top:14px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+    }
+    .body{padding:14px;}
+    .body h3{margin:0 0 6px; font-size:16px;}
+    .body p{margin:0 0 12px; color:var(--muted); font-size:13.5px; line-height:1.5;}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .price{font-weight:800}
+    .add{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-weight:800;
+      transition:.2s ease;
+    }
+    .add:hover{transform: translateY(-2px); background: rgba(255,255,255,.10);}
+
+    /* contact */
+    .contactGrid{display:grid; grid-template-columns: 1fr 1fr; gap:16px;}
+    .panel{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--r2);
+      padding:18px;
+      box-shadow: var(--shadow);
+    }
+    label{display:block; font-weight:800; margin:10px 0 8px;}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      outline:none;
+    }
+    textarea{min-height:120px; resize:vertical}
+    input:focus, textarea:focus{
+      border-color: rgba(6,182,212,.55);
+      box-shadow: 0 0 0 4px rgba(6,182,212,.12);
+    }
+
+    footer{
+      padding:26px 0 36px;
+      border-top:1px solid var(--line);
+      color: var(--muted);
+    }
+    footer .foot{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:center;}
+
+    /* reveal animation */
+    .reveal{opacity:0; transform: translateY(18px); transition: .7s ease;}
+    .reveal.show{opacity:1; transform: translateY(0);}
+
+    /* floating WhatsApp */
+    .float{
+      position:fixed; right:18px; bottom:18px; z-index:80;
+      border:none; cursor:pointer;
+      border-radius:999px;
+      padding:12px 14px;
+      display:flex; gap:10px; align-items:center;
+      color:#06110E;
+      font-weight:900;
+      background: linear-gradient(135deg, var(--b), rgba(34,197,94,.85));
+      box-shadow: 0 18px 60px rgba(34,197,94,.20);
+      transition:.2s ease;
+      text-decoration:none;
+    }
+    .float:hover{transform: translateY(-2px); filter:saturate(1.05);}
+
+    /* responsive */
+    @media (max-width: 980px){
+      .heroWrap{grid-template-columns: 1fr;}
+      .card{grid-column: span 6;}
+      .contactGrid{grid-template-columns: 1fr;}
+      nav ul{display:none;}
+      .hamburger{display:inline-flex; align-items:center; justify-content:center;}
+      .head{flex-direction:column; align-items:flex-start;}
+    }
+    @media (max-width: 560px){
+      .card{grid-column: span 12;}
+      .heroActions{flex-direction:column; align-items:stretch;}
+      .btn{justify-content:center;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+  <div class="blob three"></div>
+
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top">
+          <span class="logo" aria-hidden="true"></span>
+          <span>The <span style="color:#fff">2</span> Chefs</span>
+        </a>
+
+        <nav>
+          <ul>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="cta">
+          <button class="hamburger" id="hamb" aria-label="Ouvrir le menu"><span></span></button>
+          <a class="btn" id="mapsTop" target="_blank" rel="noopener">📍 Maps</a>
+          <a class="btn" id="instaTop" target="_blank" rel="noopener">📸 Instagram</a>
+          <a class="btn primary" id="callTop">☎️ Appeler</a>
+        </div>
+      </div>
+
+      <div class="mobileMenu" id="mobileMenu">
+        <a href="#menu">Menu</a>
+        <a href="#about">À propos</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container heroWrap">
+        <div>
+          <div class="tag reveal"><span class="pulse"></span><span>Commandes rapides • Sur place • À emporter</span></div>
+
+          <h1 class="reveal">
+            <span class="grad">Tacos</span> gourmands, <span class="grad">Pizzas</span> artisanales
+            & <span class="grad">Konafa pistache</span> incroyable.
+          </h1>
+
+          <p class="lead reveal">
+            Bienvenue chez <b>The 2 Chefs</b> : snack moderne avec une carte variée (tacos, pizzas, desserts, konafa).
+            Clique pour commander directement.
+          </p>
+
+          <div class="heroActions reveal">
+            <a class="btn primary" href="#menu">Voir le menu</a>
+            <a class="btn" id="whatsHero" href="#">💬 Commander WhatsApp</a>
+            <a class="btn" id="mapsHero" target="_blank" rel="noopener">📍 Itinéraire</a>
+          </div>
+        </div>
+
+        <div class="heroCard reveal">
+          <div class="heroCardTop">
+            <div>
+              <b>Best-sellers</b>
+              <small>Tacos XL • Pizza Pepperoni • Konafa Pistache</small>
+            </div>
+            <div style="color:var(--muted); font-weight:800;">⭐ 4.8</div>
+          </div>
+
+          <div class="heroArt" aria-hidden="true"></div>
+
+          <div class="heroGrid">
+            <div class="mini">
+              <div class="icon">🌮</div>
+              <div><b>Tacos XL</b><span>Viande au choix + frites</span></div>
+            </div>
+            <div class="mini">
+              <div class="icon">🍕</div>
+              <div><b>Pizzas</b><span>Pâte maison • mozzarella</span></div>
+            </div>
+            <div class="mini">
+              <div class="icon">🍰</div>
+              <div><b>Konafa</b><span>Pistache • Fromage</span></div>
+            </div>
+            <div class="mini">
+              <div class="icon">🍫</div>
+              <div><b>Desserts</b><span>Cheesecake • Brownie</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu">
+      <div class="container">
+        <div class="head">
+          <div>
+            <h2 class="reveal">Menu</h2>
+            <p class="reveal">Filtre les produits. Les prix sont exemples (tu peux les modifier).</p>
+            <div class="filters reveal">
+              <button class="filterBtn active" data-filter="all">Tout</button>
+              <button class="filterBtn" data-filter="tacos">Tacos</button>
+              <button class="filterBtn" data-filter="pizza">Pizzas</button>
+              <button class="filterBtn" data-filter="konafa">Konafa</button>
+              <button class="filterBtn" data-filter="dessert">Desserts</button>
+            </div>
+          </div>
+
+          <div class="panel reveal" style="min-width:280px;">
+            <b>🧺 Panier (démo)</b>
+            <div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--muted);">
+              <span>Articles:</span><span id="cartCount">0</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:6px; color:var(--muted);">
+              <span>Total:</span><span id="cartTotal">0.00 DH</span>
+            </div>
+            <button class="btn primary" id="orderBtn" style="width:100%; justify-content:center; margin-top:12px;">
+              Commander WhatsApp
+            </button>
+            <small style="display:block; margin-top:10px; color:var(--muted);">
+              Le panier envoie le total sur WhatsApp.
+            </small>
+          </div>
+        </div>
+
+        <div class="cards" id="menuGrid">
+          <!-- TACOS -->
+          <article class="card reveal" data-cat="tacos">
+            <div class="img"><span class="chip">Tacos</span></div>
+            <div class="body">
+              <h3>Tacos Poulet</h3>
+              <p>Poulet mariné, frites, sauce fromagère.</p>
+              <div class="row">
+                <span class="price">45 DH</span>
+                <button class="add" data-name="Tacos Poulet" data-price="45">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="tacos">
+            <div class="img"><span class="chip">Tacos</span></div>
+            <div class="body">
+              <h3>Tacos Viande</h3>
+              <p>Viande, cheddar, frites, sauce maison.</p>
+              <div class="row">
+                <span class="price">50 DH</span>
+                <button class="add" data-name="Tacos Viande" data-price="50">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="tacos">
+            <div class="img"><span class="chip">Tacos</span></div>
+            <div class="body">
+              <h3>Tacos Mixte XL</h3>
+              <p>Poulet + viande, double fromage.</p>
+              <div class="row">
+                <span class="price">65 DH</span>
+                <button class="add" data-name="Tacos Mixte XL" data-price="65">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- PIZZA -->
+          <article class="card reveal" data-cat="pizza">
+            <div class="img"><span class="chip">Pizza</span></div>
+            <div class="body">
+              <h3>Margherita</h3>
+              <p>Tomate, mozzarella, basilic.</p>
+              <div class="row">
+                <span class="price">60 DH</span>
+                <button class="add" data-name="Pizza Margherita" data-price="60">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="pizza">
+            <div class="img"><span class="chip">Pizza</span></div>
+            <div class="body">
+              <h3>Pepperoni</h3>
+              <p>Pepperoni, mozzarella, sauce tomate.</p>
+              <div class="row">
+                <span class="price">75 DH</span>
+                <button class="add" data-name="Pizza Pepperoni" data-price="75">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="pizza">
+            <div class="img"><span class="chip">Pizza</span></div>
+            <div class="body">
+              <h3>4 Fromages</h3>
+              <p>Mozzarella, cheddar, parmesan, bleu.</p>
+              <div class="row">
+                <span class="price">80 DH</span>
+                <button class="add" data-name="Pizza 4 Fromages" data-price="80">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- KONAFA -->
+          <article class="card reveal" data-cat="konafa">
+            <div class="img"><span class="chip">Konafa</span></div>
+            <div class="body">
+              <h3>Konafa Pistache</h3>
+              <p>Croustillante, pistache, sirop léger.</p>
+              <div class="row">
+                <span class="price">35 DH</span>
+                <button class="add" data-name="Konafa Pistache" data-price="35">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="konafa">
+            <div class="img"><span class="chip">Konafa</span></div>
+            <div class="body">
+              <h3>Konafa Fromage</h3>
+              <p>Fromage fondant, miel.</p>
+              <div class="row">
+                <span class="price">38 DH</span>
+                <button class="add" data-name="Konafa Fromage" data-price="38">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- DESSERT -->
+          <article class="card reveal" data-cat="dessert">
+            <div class="img"><span class="chip">Dessert</span></div>
+            <div class="body">
+              <h3>Cheesecake</h3>
+              <p>Crème légère, coulis fruits rouges.</p>
+              <div class="row">
+                <span class="price">30 DH</span>
+                <button class="add" data-name="Cheesecake" data-price="30">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="dessert">
+            <div class="img"><span class="chip">Dessert</span></div>
+            <div class="body">
+              <h3>Brownie</h3>
+              <p>Chocolat intense, noix, servi tiède.</p>
+              <div class="row">
+                <span class="price">28 DH</span>
+                <button class="add" data-name="Brownie" data-price="28">Ajouter</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal" data-cat="dessert">
+            <div class="img"><span class="chip">Dessert</span></div>
+            <div class="body">
+              <h3>Glace / Milkshake</h3>
+              <p>Saveurs au choix (à personnaliser).</p>
+              <div class="row">
+                <span class="price">25 DH</span>
+                <button class="add" data-name="Milkshake" data-price="25">Ajouter</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="head">
+          <div>
+            <h2 class="reveal">À propos</h2>
+            <p class="reveal">
+              Snack premium, service rapide, produits généreux. Ajoute ici ton histoire, tes horaires, et tes zones de livraison.
+            </p>
+          </div>
+        </div>
+
+        <div class="panel reveal">
+          <b>Pourquoi The 2 Chefs ?</b>
+          <p style="color:var(--muted); line-height:1.7; margin:10px 0 0;">
+            • Qualité & propreté • Portions généreuses • Sauces maison • Commande simple sur WhatsApp • Localisation Google Maps.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="head">
+          <div>
+            <h2 class="reveal">Contact</h2>
+            <p class="reveal">Commande directe au <b>0781302400</b>, Instagram, et itinéraire Google Maps.</p>
+          </div>
+        </div>
+
+        <div class="contactGrid">
+          <div class="panel reveal">
+            <b>Infos rapides</b>
+            <p style="color:var(--muted); line-height:1.7; margin:10px 0 12px;">
+              ☎️ Téléphone: <b>0781302400</b><br/>
+              📸 Instagram: <b>@the_2chefs</b><br/>
+              📍 Google Maps: bouton “Itinéraire”
+            </p>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn primary" id="whatsContact" href="#">💬 Commander WhatsApp</a>
+              <a class="btn" id="callContact" href="#">☎️ Appeler</a>
+              <a class="btn" id="mapsContact" target="_blank" rel="noopener">📍 Itinéraire</a>
+              <a class="btn" id="instaContact" target="_blank" rel="noopener">📸 Instagram</a>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <b>Message (WhatsApp)</b>
+            <form id="form">
+              <label>Nom</label>
+              <input id="name" required placeholder="Votre nom" />
+
+              <label>Votre commande</label>
+              <textarea id="msg" required placeholder="Ex: 1 Tacos Poulet + 1 Konafa Pistache..."></textarea>
+
+              <button class="btn primary" type="submit" style="width:100%; justify-content:center; margin-top:12px;">
+                Envoyer sur WhatsApp
+              </button>
+              <small style="display:block; color:var(--muted); margin-top:10px;">
+                Le message s’ouvre directement dans WhatsApp avec ton numéro.
+              </small>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="foot">
+          <div>© <span id="year"></span> The 2 Chefs</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn" href="#menu">Menu</a>
+            <a class="btn" href="#contact">Contact</a>
+            <a class="btn" href="#top">Haut</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <a class="float" id="floatWhats" href="#">💬 WhatsApp</a>
+
+  <script>
+    // ====== CONFIG (déjà rempli avec tes liens) ======
+    const PHONE_LOCAL = "0781302400";
+    const PHONE_WA = "212781302400"; // WhatsApp format (Maroc) -> 212 + numéro sans 0
+    const INSTAGRAM_URL = "https://www.instagram.com/the_2chefs?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+    const MAPS_URL = "l.instagram.com/?u=https%3A%2F%2Fmaps.app.goo.gl%2FrMLDpAGbieLAyLnx6%3Fg_st%3Dcom.google.maps.preview.copy%26utm_source%3Dig%26utm_medium%3Dsocial%26utm_content%3Dlink_in_bio%26fbclid%3DPAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn_MWVcvhJfS9cCxcdCc8r2nWWMFEGxfMja9WJdIDokl3o9XLmiAofaIQIxXU_aem_T2qPFJlu7DwQEXPORnZiqw&e=AT0ouJ6COtO_yCkp8vJaXL1nTVFzeHShAMcnzZjjXiI_flWXJaEizfnpVQl4bv8wBepSqUusETm6-s5ESHeWkWXiLrYIuHRV6pDjtRalCQ";
+
+    function waLink(text){
+      return `https://wa.me/${PHONE_WA}?text=${encodeURIComponent(text)}`;
+    }
+
+    // footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // mobile menu
+    const hamb = document.getElementById("hamb");
+    const mobileMenu = document.getElementById("mobileMenu");
+    hamb?.addEventListener("click", () => mobileMenu.classList.toggle("open"));
+
+    // top buttons
+    document.getElementById("callTop").href = `tel:${PHONE_LOCAL}`;
+    document.getElementById("instaTop").href = INSTAGRAM_URL;
+    document.getElementById("mapsTop").href = MAPS_URL;
+
+    // hero buttons
+    document.getElementById("mapsHero").href = MAPS_URL;
+    document.getElementById("whatsHero").href = waLink("Bonjour The 2 Chefs, je veux commander :");
+
+    // contact buttons
+    document.getElementById("callContact").href = `tel:${PHONE_LOCAL}`;
+    document.getElementById("instaContact").href = INSTAGRAM_URL;
+    document.getElementById("mapsContact").href = MAPS_URL;
+    document.getElementById("whatsContact").href = waLink("Bonjour The 2 Chefs, je veux commander :");
+
+    // floating whatsapp
+    document.getElementById("floatWhats").href = waLink("Bonjour The 2 Chefs, je veux commander :");
+
+    // reveal animations
+    const reveals = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("show");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    // menu filtering
+    const filterBtns = document.querySelectorAll(".filterBtn");
+    const cards = document.querySelectorAll("#menuGrid .card");
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        cards.forEach(card => {
+          const ok = (f === "all") || (card.dataset.cat === f);
+          card.style.display = ok ? "block" : "none";
+        });
+      });
+    });
+
+    // cart demo => send to WhatsApp
+    let cartCount = 0;
+    let cartTotal = 0;
+    const cartCountEl = document.getElementById("cartCount");
+    const cartTotalEl = document.getElementById("cartTotal");
+
+    function updateCart(){
+      cartCountEl.textContent = cartCount;
+      cartTotalEl.textContent = cartTotal.toFixed(2) + " DH";
+    }
+
+    document.querySelectorAll(".add").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const price = parseFloat(btn.dataset.price || "0");
+        cartCount += 1;
+        cartTotal += price;
+        updateCart();
+
+        btn.textContent = "Ajouté ✓";
+        setTimeout(() => btn.textContent = "Ajouter", 850);
+      });
+    });
+
+    document.getElementById("orderBtn").addEventListener("click", () => {
+      const text = `Bonjour The 2 Chefs, ma commande: ${cartCount} article(s). Total: ${cartTotal.toFixed(2)} DH.`;
+      window.open(waLink(text), "_blank");
+    });
+
+    // form => WhatsApp
+    document.getElementById("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const msg = document.getElementById("msg").value.trim();
+      const text = `Bonjour The 2 Chefs, je m'appelle ${name}. Ma commande: ${msg}`;
+      window.open(waLink(text), "_blank");
+    });
+  </script>
+</body>
+</html>
